@@ -9,14 +9,20 @@ What this is
 
 This python script includes a few useful, short functions for making pictures of RNA and proteins in pymol in our 'lab style':
 
-rr()
+<ul>
+<li><code>rr()</code>
  useful for RNA, with 2' OH as spheres, bases as filled rings, and backbone as cartoon ribbons, rainbow colored from 5' to 3'. No hydrogens, white background. 
+</li>
 
-rd()
+<li>
+<code>rd()</code>
  useful for proteins -- side chains are all-atom and colored CPK, backbone is rainbow cartoon from N to C terminus.
+</li>
 
-sa()   
+<li>
+<code>sa()</code>
  superimposes all models to the first one. [Thanks to Kyle Beauchamp for this one]
+</li>
 
 and more...
 
@@ -34,11 +40,15 @@ How to install
 
 In pymol, type 
 
+<code>
  run pymol_rhiju.py
+</code>
 
-Or (much easier) create or edit a .pymolrc text file in your home directory, and add a line like:
+Or (much easier) create or edit a <code>.pymolrc</code> text file in your home directory, and add a line like:
 
+<code>
  run ~/src/pymol_daslab/pymol_daslab.py
+</code>
 
 --------------
 Quick test
