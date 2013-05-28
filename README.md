@@ -23,6 +23,7 @@ This python script includes a few useful, short functions for making pictures of
 <code>sa()</code>
  superimposes all models to the first one. [Thanks to Kyle Beauchamp for this one]
 </li>
+</ul>
 
 and more...
 
