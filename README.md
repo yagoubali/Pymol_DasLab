@@ -25,7 +25,7 @@ Example images & help
 --------------
 Check out: 
 
-https://docs.google.com/document/d/1uWeEEGPjAceaw07ESf9bec-FrxW4Bx6jGaBqoHbSXuo/edit
+[example images and help](https://docs.google.com/document/d/1uWeEEGPjAceaw07ESf9bec-FrxW4Bx6jGaBqoHbSXuo/edit)
 
 
 --------------
@@ -39,4 +39,15 @@ In pymol, type
 Or (much easier) create or edit a .pymolrc text file in your home directory, and add a line like:
 
  run ~/src/pymol_daslab/pymol_daslab.py
+
+--------------
+Quick test
+--------------
+
+Open up pymol. Type:
+
+<code>
+fetch 1q9a
+rr()
+</code>
 
