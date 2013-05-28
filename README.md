@@ -1,5 +1,5 @@
 -----------------------
- pymol_rhiju.py
+ pymol_rhiju.py    ![1q9a example image](1q9a.png)
 -----------------------
 (C) R. Das 2008-2013
 
