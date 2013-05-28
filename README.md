@@ -39,10 +39,15 @@ Check out:
 How to install
 --------------
 
+Get the script. Either download the pymol_daslab.py script from [this link](https://raw.github.com/DasLab/pymol_daslab/master/pymol_daslab.py).
+Or, if you are planning to make edits, type:
+
+<code>git clone https://github.com/DasLab/pymol_daslab</code>
+
 In pymol, type 
 
 <code>
- run pymol_rhiju.py
+ run pymol_daslab.py
 </code>
 
 Or (much easier) create or edit a <code>.pymolrc</code> text file in your home directory, and add a line like:
