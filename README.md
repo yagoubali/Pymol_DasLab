@@ -1,8 +1,8 @@
 -----------------------
- pymol_rhiju.py    ![1q9a example image](1q9a.png)
+ pymol_rhiju.py    
 -----------------------
 (C) R. Das 2008-2013
-
+![1q9a example image](https://raw.github.com/DasLab/pymol_daslab/master/1q9a.png)
 ------------
 What this is
 ------------
