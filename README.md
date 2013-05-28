@@ -1,5 +1,5 @@
 -----------------------
- pymol_rhiju.py    
+ pymol_daslab.py    
 -----------------------
 (C) R. Das 2008-2013
 ![1q9a example image](https://raw.github.com/DasLab/pymol_daslab/master/1q9a.png)
