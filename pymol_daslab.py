@@ -1,4 +1,5 @@
-from pymol import cmd
+from pymol import cmd,util
+import inspect
 
 # Pymol commands used by the Das Lab
 # (C) R. Das 2010-2013.
@@ -7,6 +8,7 @@ from pymol import cmd
 #
 # https://docs.google.com/document/d/1uWeEEGPjAceaw07ESf9bec-FrxW4Bx6jGaBqoHbSXuo/edit
 #
+
 
 def sa(intra=False,rainbow=True):
   """
@@ -277,7 +279,8 @@ def spr():
   """
   Load up these commands again after, say, an edit.
   """
-  cmd.do( 'run /Users/rhiju/.pymol/pymol_rhiju.py' )
+
+  cmd.do( 'run '+inspect.getfile(inspect.currentframe()) )
 
 def source_pymol_rhiju():
   """
@@ -347,6 +350,18 @@ def rb():
   for x in AllObj:
     print(AllObj[0],x)
     cmd.spectrum( "count", "rainbow", x )
+
+def atomcolor():
+  """
+  atom coloring
+  """
+
+  cmd.bg_color( "white" )
+  cmd.hide( "ev" )
+  cmd.show( "sticks", "not elem H" )
+  cmd.show( "lines", "elem H" )
+  util.cbag()
+  cmd.color( "white", "elem C" )
 
 def rc():
   """
