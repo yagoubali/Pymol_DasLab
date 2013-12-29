@@ -1,5 +1,6 @@
 from pymol import cmd,util
 import inspect
+from glob import glob
 
 # Pymol commands used by the Das Lab
 # (C) R. Das 2010-2013.
@@ -201,13 +202,18 @@ def rr():
   #cmd.select('sugar', 'name c1*+c2*+c3*+c4*+o2*+o4*')
   AllObj=cmd.get_names("all")
 
+  cmd.color( 'blue','resn rG+G and name n1+c6+o6+c5+c4+n7+c8+n9+n3+c2+n1+n2')
+  cmd.color( 'green','resn rC+C and name n1+c2+o2+n3+c4+n4+c5+c6')
+  cmd.color( 'orange','resn rA+A and name n1+c6+n6+c5+n7+c8+n9+c4+n3+c2')
+  cmd.color( 'red','resn rU+U and name n3+c4+o4+c5+c6+n1+c2+o2')
+
+
   cmd.select( 'backbone', " (name o1p+o2p+o3p+p+op1+op2+'c1*'+'c2*'+'c3*'+'c5*'+'o2*'+'o3*'+'o4*'+'o5*'+'c1*'+'c2*'+'c3*'+'c4*'+'o2*'+'o4*'+c1'+c2'+c3'+c5'+o2'+o3'+o4'+o5'+c1'+c2'+c3'+c4'+o2'+o4') and (not name c1+c2+c3+c4+c5+o2+o3+o4+o5) ")
 
   for x in AllObj:
-    #print(AllObj[0],x)
-    print x
     cmd.show( "cartoon", x )
     cmd.spectrum( "count", "rainbow", x+" and backbone" )
+    #cmd.color( 'white', 'backbone' )
 
   cmd.cartoon( "tube", "backbone" )
 
@@ -215,14 +221,10 @@ def rr():
   cmd.set( "cartoon_ring_transparency", 0.0 )
   cmd.set( "cartoon_tube_radius", 0.2 )
 
-  cmd.color( 'blue','resn rG+G and name n1+c6+o6+c5+c4+n7+c8+n9+n3+c2+n1+n2')
-  cmd.color( 'green','resn rC+C and name n1+c2+o2+n3+c4+n4+c5+c6')
-  cmd.color( 'orange','resn rA+A and name n1+c6+n6+c5+n7+c8+n9+c4+n3+c2')
-  cmd.color( 'red','resn rU+U and name n3+c4+o4+c5+c6+n1+c2+o2')
-
   cmd.hide( "sticks", "backbone" )
 
   cmd.delete('backbone')
+
 
   cmd.alter( "name o2*","vdw=0.5" )
   cmd.show( "spheres", "name o2'+'o2*' and not name o2" )
@@ -236,7 +238,7 @@ def render_rna():
   rr()
 
 def rrs():
-  """
+  """)
   rhiju's favorite coloring of RNA, showing
   all heavy atoms as sticks -- more detail than rr().
   """
@@ -400,3 +402,8 @@ def rc():
 
 def render_cartoon():
   rc()
+
+def load_movie( filename_string, movie_name = "mov" ):
+  lst = glob( filename_string )
+  lst.sort()
+  for fil in lst: cmd.load(fil, movie_name )
