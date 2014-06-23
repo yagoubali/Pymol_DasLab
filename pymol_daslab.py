@@ -40,7 +40,7 @@ def chainbow():
     print(AllObj[0],x)
     cmd.util.chainbow(x)
 
-def color_by_data( filename, offset = 0 ):
+def color_by_data( filename, offset = 0, min_val=-1.0, max_val = 0.0 ):
   """
   Read in a text file with rows like:
 
@@ -54,22 +54,46 @@ def color_by_data( filename, offset = 0 ):
   """
   lines = open( filename ).readlines()
   data = {}
+  data_backbone = {}
 
   avg_data = 0.0
-
+  min_data = 0.0
+  max_data = 0.0
   for line in lines:
     cols = string.split( line )
     dataval = float( cols[1] )
+    if min_val >= 0 and dataval < min_val: dataval = min_val
+    if max_val > 0 and dataval > max_val: dataval = max_val
     data[ int( cols[0] )  ] = dataval
     avg_data = avg_data + dataval
+    if ( dataval < min_data ): min_data = dataval
+    if ( dataval > max_data ): max_data = dataval
+
+    if len( cols ) > 2:
+      dataval2 = float( cols[2] )
+      if min_val >= 0 and dataval2 < min_val: dataval2 = min_val
+      if max_val > 0 and dataval2 > max_val: dataval2 = max_val
+      data_backbone[ int( cols[0] ) ] = dataval2
+
 
   avg_data /= len( data.keys() )
 
   cmd.alter( 'all', 'b=%6.3f' % avg_data )
-  print offset
+
   for i in data.keys():
     cmd.alter( 'resi  %d' % (i+int(offset)),  'b=%6.3f' % data[i] )
-  cmd.spectrum( "b" )
+
+  backbone_tag = " and (name o1p+o2p+o3p+p+op1+op2+'c1*'+'c2*'+'c3*'+'c5*'+'o2*'+'o3*'+'o4*'+'o5*'+'c1*'+'c2*'+'c3*'+'c4*'+'o2*'+'o4*'+c1'+c2'+c3'+c5'+o2'+o3'+o4'+o5'+c1'+c2'+c3'+c4'+o2'+o4') and (not name c1+c2+c3+c4+c5+o2+o3+o4+o5)"
+  for i in data_backbone.keys():
+    cmd.alter( 'resi  %d %s' % (i+int(offset),backbone_tag),  'b=%6.3f' % data_backbone[i] )
+
+
+  if ( min_val < 0 ): min_val = min_data
+  if ( max_val < 0 ): max_val = max_data
+
+  cmd.spectrum( "b", "rainbow","all",min_val,max_val )
+  #cmd.ramp_new("ramp_obj", "1gid_RNAA", range=[0, 0, max_val], color="[blue, white, red ]")
+
 
 
 def align_all( subset = [] ):
@@ -116,6 +140,9 @@ def rd():
     cmd.spectrum( "count", "rainbow", x+" and name CA+C" )
     cmd.show( "sticks", x +" and not elem H and not name C+N+O" )
     cmd.show( "sticks", x +" and resn PRO and name N" )
+    cmd.show( "sticks", x + " and name NR+CR+CS+CP+CQ" )
+    cmd.show( "sticks", x + " and not elem H and neighbor name NR+CQ+CR+CS+CP" )
+    cmd.show( "sticks", x + " and not elem H and neighbor neighbor name NR+CQ+CR+CS+CP" )
     cmd.set( "cartoon_oval_width", 0.1 )
     cmd.set( "cartoon_oval_length", 0.5 )
 
@@ -161,7 +188,8 @@ def rj():
     #print(AllObj[0],x)
     print x
     cmd.show( "cartoon", x )
-    cmd.hide( "line", x )
+    #cmd.hide( "line", x )
+    cmd.show( "line", x )
     cmd.color( "gray", x+" and resn trp+phe+ala+val+leu+ile+pro+met" )
     cmd.color( "orange", x+" and resn gly" )
     cmd.color( "red", x+" and resn asp+glu" )
@@ -170,6 +198,9 @@ def rj():
     cmd.color( "green", x+" and resn tyr+thr+ser+gln+asn" )
     #cmd.spectrum( "count", "rainbow", x+" and name CA" )
     cmd.show( "sticks", x +" and not elem H and not name C+N+O" )
+    cmd.show( "sticks", x +" and resn PRO and name N" )
+    cmd.hide( "sticks", x + " and name NR+CR+CS+CP+CQ" )
+    cmd.show( "sticks", x + " and not elem H and neighbor name NR+CQ+CR+CS+CP" )
   cmd.set( "cartoon_rect_length", 0.75 )
   cmd.set( "cartoon_rect_width", 0.1 )
   cmd.set( "cartoon_oval_length", 0.6 )
@@ -232,7 +263,7 @@ def rr():
 
   cmd.alter( "resn mg", "vdw=1.0")
   cmd.alter( "resn hoh", "vdw=0.5")
-  cmd.show( "spheres", "resn mg+sr+co")
+  cmd.show( "spheres", "resn mg+sr+co+zn")
 
 def render_rna():
   rr()
@@ -311,11 +342,11 @@ def loop_color( start, end, native=None, zoom=False ):
   cmd.color( "salmon",  "elem C and resi %d-%d" % (start,end) )
 
   #cmd.show( "lines", "not elem H" )
-
   #cmd.hide( "cartoon",  "resi %d-%d" % (start,end) )
   #cmd.show( "sticks",  "name C+N+CA+O and resi %d-%d" % (start,end) )
   cmd.hide( "sticks", "resi %d-%d and name C+N+O" % (start,end) )
   cmd.show( "sticks", "resn PRO and name N")
+  cmd.show( "sticks", x +" and ( not elem H and neighbor name NR+CR+CS+CP+CQ )" )
 
 
   if native:
@@ -399,6 +430,14 @@ def rc():
   cmd.color( 'red','resn rU+U and name n3+c4+o4+c5+c6+n1+c2+o2')
 
   cmd.delete('backbone')
+
+def rcd():
+  """
+  fancy ribbon coloring for large RNA comparisons
+  """
+  rc()
+  cmd.cartoon( 'dumbbell')
+  cmd.set( 'cartoon_dumbbell_radius', 0.5 )
 
 def render_cartoon():
   rc()
