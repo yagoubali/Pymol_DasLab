@@ -226,6 +226,11 @@ def rr():
   cmd.color( 'orange','resn rA+A+DA')
   cmd.color( 'blue','resn rU+U+DT+BRU')
 
+  #cmd.set( 'cartoon_ring_color',  'red','resn rG+G+DG')
+  #cmd.set( 'cartoon_ring_color',  'forest','resn rC+C+DC')
+  #cmd.set( 'cartoon_ring_color',  'orange','resn rA+A+DA')
+  #cmd.set( 'cartoon_ring_color',  'blue','resn rU+U+DT+BRU')
+
   #cmd.select('bases','name c2+c4+c5+c6+c8+n1+n2+n3+n4+n6+n7+n9+o2+o4+o6+n1p')
   #cmd.select('backbone', 'name o1p+o2p+o3p+p+c1*+c2*+c3*+c5*+o2*+o3*+o4*+o5*')
   #cmd.select('sugar', 'name c1*+c2*+c3*+c4*+o2*+o4*')
