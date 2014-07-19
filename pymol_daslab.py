@@ -81,19 +81,17 @@ def color_by_data( filename, offset = 0, min_val=-1.0, max_val = 0.0 ):
   cmd.alter( 'all', 'b=%6.3f' % avg_data )
 
   for i in data.keys():
-    cmd.alter( 'resi  %d' % (i+int(offset)),  'b=%6.3f' % data[i] )
+    cmd.alter( 'resi  \\%d' % (i+int(offset)),  'b=%6.3f' % data[i] )
 
   backbone_tag = " and (name o1p+o2p+o3p+p+op1+op2+'c1*'+'c2*'+'c3*'+'c5*'+'o2*'+'o3*'+'o4*'+'o5*'+'c1*'+'c2*'+'c3*'+'c4*'+'o2*'+'o4*'+c1'+c2'+c3'+c5'+o2'+o3'+o4'+o5'+c1'+c2'+c3'+c4'+o2'+o4') and (not name c1+c2+c3+c4+c5+o2+o3+o4+o5)"
   for i in data_backbone.keys():
-    cmd.alter( 'resi  %d %s' % (i+int(offset),backbone_tag),  'b=%6.3f' % data_backbone[i] )
-
+    cmd.alter( 'resi  \\%d %s' % (i+int(offset),backbone_tag),  'b=%6.3f' % data_backbone[i] )
 
   if ( min_val < 0 ): min_val = min_data
   if ( max_val < 0 ): max_val = max_data
 
   cmd.spectrum( "b", "rainbow","all",min_val,max_val )
   #cmd.ramp_new("ramp_obj", "1gid_RNAA", range=[0, 0, max_val], color="[blue, white, red ]")
-
 
 
 def align_all( subset = [] ):
@@ -195,7 +193,7 @@ def rj():
     cmd.color( "red", x+" and resn asp+glu" )
     cmd.color( "blue", x+" and resn lys+arg+his" )
     cmd.color( "purple", x+" and resn cys" )
-    cmd.color( "green", x+" and resn tyr+thr+ser+gln+asn" )
+    cmd.color( "forest", x+" and resn tyr+thr+ser+gln+asn" )
     #cmd.spectrum( "count", "rainbow", x+" and name CA" )
     cmd.show( "sticks", x +" and not elem H and not name C+N+O" )
     cmd.show( "sticks", x +" and resn PRO and name N" )
@@ -223,20 +221,20 @@ def rr():
   cmd.hide( 'everything' )
   cmd.show('sticks','not elem H')
 
-  cmd.color( 'blue','resn rG+G+DG')
-  cmd.color( 'green','resn rC+C+DC')
+  cmd.color( 'red','resn rG+G+DG')
+  cmd.color( 'forest','resn rC+C+DC')
   cmd.color( 'orange','resn rA+A+DA')
-  cmd.color( 'red','resn rU+U+DT+BRU')
+  cmd.color( 'blue','resn rU+U+DT+BRU')
 
   #cmd.select('bases','name c2+c4+c5+c6+c8+n1+n2+n3+n4+n6+n7+n9+o2+o4+o6+n1p')
   #cmd.select('backbone', 'name o1p+o2p+o3p+p+c1*+c2*+c3*+c5*+o2*+o3*+o4*+o5*')
   #cmd.select('sugar', 'name c1*+c2*+c3*+c4*+o2*+o4*')
   AllObj=cmd.get_names("all")
 
-  cmd.color( 'blue','resn rG+G and name n1+c6+o6+c5+c4+n7+c8+n9+n3+c2+n1+n2')
-  cmd.color( 'green','resn rC+C and name n1+c2+o2+n3+c4+n4+c5+c6')
+  cmd.color( 'red','resn rG+G and name n1+c6+o6+c5+c4+n7+c8+n9+n3+c2+n1+n2')
+  cmd.color( 'forest','resn rC+C and name n1+c2+o2+n3+c4+n4+c5+c6')
   cmd.color( 'orange','resn rA+A and name n1+c6+n6+c5+n7+c8+n9+c4+n3+c2')
-  cmd.color( 'red','resn rU+U and name n3+c4+o4+c5+c6+n1+c2+o2')
+  cmd.color( 'blue','resn rU+U and name n3+c4+o4+c5+c6+n1+c2+o2')
 
 
   cmd.select( 'backbone', " (name o1p+o2p+o3p+p+op1+op2+'c1*'+'c2*'+'c3*'+'c5*'+'o2*'+'o3*'+'o4*'+'o5*'+'c1*'+'c2*'+'c3*'+'c4*'+'o2*'+'o4*'+c1'+c2'+c3'+c5'+o2'+o3'+o4'+o5'+c1'+c2'+c3'+c4'+o2'+o4') and (not name c1+c2+c3+c4+c5+o2+o3+o4+o5) ")
@@ -404,10 +402,10 @@ def rc():
 
   cmd.hide( 'everything' )
 
-  cmd.color( 'blue','resn rG+G+DG')
-  cmd.color( 'green','resn rC+C+DC')
+  cmd.color( 'red','resn rG+G+DG')
+  cmd.color( 'forest','resn rC+C+DC')
   cmd.color( 'orange','resn rA+A+DA')
-  cmd.color( 'red','resn rU+U+DT+BRU')
+  cmd.color( 'blue','resn rU+U+DT+BRU')
 
   AllObj=cmd.get_names("all")
 
@@ -424,10 +422,10 @@ def rc():
   cmd.set( "cartoon_ring_transparency", 0.0 )
   cmd.set( "cartoon_tube_radius", 1.0 )
 
-  cmd.color( 'blue','resn rG+G and name n1+c6+o6+c5+c4+n7+c8+n9+n3+c2+n1+n2')
-  cmd.color( 'green','resn rC+C and name n1+c2+o2+n3+c4+n4+c5+c6')
+  cmd.color( 'red','resn rG+G and name n1+c6+o6+c5+c4+n7+c8+n9+n3+c2+n1+n2')
+  cmd.color( 'forest','resn rC+C and name n1+c2+o2+n3+c4+n4+c5+c6')
   cmd.color( 'orange','resn rA+A and name n1+c6+n6+c5+n7+c8+n9+c4+n3+c2')
-  cmd.color( 'red','resn rU+U and name n3+c4+o4+c5+c6+n1+c2+o2')
+  cmd.color( 'blue','resn rU+U and name n3+c4+o4+c5+c6+n1+c2+o2')
 
   cmd.delete('backbone')
 
