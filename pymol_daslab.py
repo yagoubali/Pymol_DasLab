@@ -280,7 +280,19 @@ def rrs():
   cmd.show( 'sticks', 'not elem H' )
 
 def render_rna_sticks():
-  rr()
+  rrs()
+
+def rrs2():
+  """)
+  rhiju's favorite coloring of RNA, showing
+  all heavy atoms as sticks -- more detail than rr().
+  same as rrs(), but removes ribbon backbone
+  """
+  rrs()
+  cmd.hide( 'cartoon' )
+
+def render_rna_sticks2():
+  rrs2()
 
 def rr2():
   """
@@ -444,6 +456,24 @@ def rcd():
 
 def render_cartoon():
   rc()
+
+def czo(color='white'):
+  """
+  color all atoms with 0.0 occupancy
+  """
+  cmd.color( color, '(q = 0.0)' )
+
+def color_zero_occupancy(color='white'):
+  czo(color=color)
+
+def cva(color='white'):
+  """
+  color all virtual atoms
+  """
+  cmd.color( color, 'elem X' )
+
+def color_virtual_atoms(color='white'):
+  cva(color=color)
 
 def load_movie( filename_string, movie_name = "mov" ):
   lst = glob( filename_string )
