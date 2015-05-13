@@ -266,7 +266,7 @@ def rr():
 
   cmd.alter( "resn mg", "vdw=1.0")
   cmd.alter( "resn hoh", "vdw=0.5")
-  cmd.show( "spheres", "resn mg+sr+co+zn")
+  cmd.show( "spheres", "resn mg+sr+co+zn+hoh")
 
 def render_rna():
   rr()
@@ -399,51 +399,49 @@ def atomcolor():
   util.cbag()
   cmd.color( "white", "elem C" )
 
-def rc():
+def rc( selection = "all" ):
   """
   tube coloring for large RNA comparisons
   """
   cmd.bg_color( "white" )
 
-  cmd.hide( 'everything' )
+  cmd.hide( 'everything',selection )
 
-  cmd.color( 'red','resn rG+G+DG')
-  cmd.color( 'forest','resn rC+C+DC')
-  cmd.color( 'orange','resn rA+A+DA')
-  cmd.color( 'blue','resn rU+U+DT+BRU')
-
-  AllObj=cmd.get_names("all")
+  cmd.color( 'red','resn rG+G+DG and '+selection )
+  cmd.color( 'forest','resn rC+C+DC and '+selection)
+  cmd.color( 'orange','resn rA+A+DA and '+selection)
+  cmd.color( 'blue','resn rU+U+DT+BRU and '+selection)
 
   cmd.select( 'backbone', " (name o1p+o2p+o3p+p+op1+op2+'c1*'+'c2*'+'c3*'+'c5*'+'o2*'+'o3*'+'o4*'+'o5*'+'c1*'+'c2*'+'c3*'+'c4*'+'o2*'+'o4*'+c1'+c2'+c3'+c5'+o2'+o3'+o4'+o5'+c1'+c2'+c3'+c4'+o2'+o4') and (not name c1+c2+c3+c4+c5+o2+o3+o4+o5) ")
 
-  for x in AllObj:
-    print x
-    cmd.show( "cartoon", x )
-    cmd.spectrum( "count", "rainbow", x+" and backbone" )
+  #for x in AllObj:
+  #print x
+  cmd.show( "cartoon", selection )
+  cmd.spectrum( "count", "rainbow", selection+" and backbone" )
 
-  cmd.cartoon( "tube", "backbone" )
+  cmd.cartoon( "tube", "backbone and "+selection )
 
   cmd.set( "cartoon_ring_mode", 0 )
   cmd.set( "cartoon_ring_transparency", 0.0 )
   cmd.set( "cartoon_tube_radius", 1.0 )
 
-  cmd.color( 'red','resn rG+G and name n1+c6+o6+c5+c4+n7+c8+n9+n3+c2+n1+n2')
-  cmd.color( 'forest','resn rC+C and name n1+c2+o2+n3+c4+n4+c5+c6')
-  cmd.color( 'orange','resn rA+A and name n1+c6+n6+c5+n7+c8+n9+c4+n3+c2')
-  cmd.color( 'blue','resn rU+U and name n3+c4+o4+c5+c6+n1+c2+o2')
+  cmd.color( 'red','resn rG+G and name n1+c6+o6+c5+c4+n7+c8+n9+n3+c2+n1+n2 and '+selection)
+  cmd.color( 'forest','resn rC+C and name n1+c2+o2+n3+c4+n4+c5+c6 and '+selection)
+  cmd.color( 'orange','resn rA+A and name n1+c6+n6+c5+n7+c8+n9+c4+n3+c2 and '+selection)
+  cmd.color( 'blue','resn rU+U and name n3+c4+o4+c5+c6+n1+c2+o2 and '+selection)
 
   cmd.delete('backbone')
 
-def rcd():
+def rcd( selection = "all" ):
   """
   fancy ribbon coloring for large RNA comparisons
   """
-  rc()
+  rc( selection )
   cmd.cartoon( 'dumbbell')
   cmd.set( 'cartoon_dumbbell_radius', 0.5 )
 
-def render_cartoon():
-  rc()
+def render_cartoon( selection = "all" ):
+  rc( selection )
 
 def load_movie( filename_string, movie_name = "mov" ):
   lst = glob( filename_string )
