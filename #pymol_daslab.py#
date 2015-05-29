@@ -262,12 +262,11 @@ def rr():
 
   cmd.alter( "name o2*","vdw=0.5" )
   cmd.show( "spheres", "name o2'+'o2*' and not name o2" )
-  cmd.show( "sticks", "name 'o2*'+'c2*'a" )
-  cmd.show( "sticks", "resn hoh" )
+  cmd.show( "sticks", "name 'o2*'+'c2*'" )
 
   cmd.alter( "resn mg", "vdw=1.0")
   cmd.alter( "resn hoh", "vdw=0.5")
-  cmd.show( "spheres", "resn mg+sr+co+zn+hoh and not elem H")
+  cmd.show( "spheres", "resn mg+sr+co+zn+hoh")
 
 def render_rna():
   rr()
@@ -415,10 +414,14 @@ def rc( selection = "all" ):
 
   cmd.select( 'backbone', " (name o1p+o2p+o3p+p+op1+op2+'c1*'+'c2*'+'c3*'+'c5*'+'o2*'+'o3*'+'o4*'+'o5*'+'c1*'+'c2*'+'c3*'+'c4*'+'o2*'+'o4*'+c1'+c2'+c3'+c5'+o2'+o3'+o4'+o5'+c1'+c2'+c3'+c4'+o2'+o4') and (not name c1+c2+c3+c4+c5+o2+o3+o4+o5) ")
 
+  AllObj=cmd.get_names("all")
+  for x in AllObj:
+    print(AllObj[0],x)
+
   #for x in AllObj:
   #print x
   cmd.show( "cartoon", selection )
-  cmd.spectrum( "resi", "rainbow", selection+" and backbone" )
+  cmd.spectrum( "count", "rainbow", selection+" and backbone" )
 
   cmd.cartoon( "tube", "backbone and "+selection )
 
