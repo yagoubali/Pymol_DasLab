@@ -53,7 +53,13 @@ Or (much easier) create or edit a <code>.pymolrc</code> text file in your home d
 
 <code>
  import sys
+</code>
+
+<code>
  sys.path.append('/Path/To/pymol_daslab')
+</code>
+ 
+<code>
  run /Path/To/pymol_daslab/pymol_daslab.py
 </code>
 
