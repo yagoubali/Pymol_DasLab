@@ -491,7 +491,9 @@ def color_by_definition( filename ):
   tdef_fid = file_handlers.TargetDefinitionsFile()
   tdef_fid.load(filename)
   for td in tdef_fid.target_definitions:
-    input_res = ''.join([c for c in td.input_res if c.isdigit() or c in '+-'])
+    input_res = td.input_res.replace(',','+')
+    input_res = ''.join([c for c in input_res if c.isdigit() or c in '+-'])
     for x in cmd.get_object_list('(%s*)' % td.name):
+      print "color white,", x, "and resi", input_res
       cmd.color('white', x + ' and resi '+input_res)
   return
