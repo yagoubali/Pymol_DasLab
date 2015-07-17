@@ -1,6 +1,7 @@
 from pymol import cmd,util
 import inspect
 from glob import glob
+from utility import file_handlers, info_handlers
 
 # Pymol commands used by the Das Lab
 # (C) R. Das 2010-2013.
@@ -220,11 +221,12 @@ def rr():
 
   cmd.hide( 'everything' )
   cmd.show('sticks','not elem H')
-
+  
   cmd.color( 'red','resn rG+G+DG')
   cmd.color( 'forest','resn rC+C+DC')
   cmd.color( 'orange','resn rA+A+DA')
   cmd.color( 'blue','resn rU+U+DT+BRU')
+    
 
   #cmd.set( 'cartoon_ring_color',  'red','resn rG+G+DG')
   #cmd.set( 'cartoon_ring_color',  'forest','resn rC+C+DC')
@@ -235,12 +237,12 @@ def rr():
   #cmd.select('backbone', 'name o1p+o2p+o3p+p+c1*+c2*+c3*+c5*+o2*+o3*+o4*+o5*')
   #cmd.select('sugar', 'name c1*+c2*+c3*+c4*+o2*+o4*')
   AllObj=cmd.get_names("all")
-
+  
   cmd.color( 'red','resn rG+G and name n1+c6+o6+c5+c4+n7+c8+n9+n3+c2+n1+n2')
   cmd.color( 'forest','resn rC+C and name n1+c2+o2+n3+c4+n4+c5+c6')
   cmd.color( 'orange','resn rA+A and name n1+c6+n6+c5+n7+c8+n9+c4+n3+c2')
   cmd.color( 'blue','resn rU+U and name n3+c4+o4+c5+c6+n1+c2+o2')
-
+  
 
   cmd.select( 'backbone', " (name o1p+o2p+o3p+p+op1+op2+'c1*'+'c2*'+'c3*'+'c5*'+'o2*'+'o3*'+'o4*'+'o5*'+'c1*'+'c2*'+'c3*'+'c4*'+'o2*'+'o4*'+c1'+c2'+c3'+c5'+o2'+o3'+o4'+o5'+c1'+c2'+c3'+c4'+o2'+o4') and (not name c1+c2+c3+c4+c5+o2+o3+o4+o5) ")
 
@@ -470,7 +472,9 @@ def cva(color='white'):
   """
   color all virtual atoms
   """
-  cmd.color( color, 'elem X' )
+  cmd.hide( 'spheres', 'elem X' )
+  cmd.show( 'dots', 'elem X' )
+  cmd.set('transparency', 0.5, 'elem X' )
 
 def color_virtual_atoms(color='white'):
   cva(color=color)
@@ -479,3 +483,15 @@ def load_movie( filename_string, movie_name = "mov" ):
   lst = glob( filename_string )
   lst.sort()
   for fil in lst: cmd.load(fil, movie_name )
+
+def cbd( filename ):
+  color_by_definition( filename )
+
+def color_by_definition( filename ):
+  tdef_fid = file_handlers.TargetDefinitionsFile()
+  tdef_fid.load(filename)
+  for td in tdef_fid.target_definitions:
+    input_res = ''.join([c for c in td.input_res if c.isdigit() or c in '+-'])
+    for x in cmd.get_object_list('(%s*)' % td.name):
+      cmd.color('white', x + ' and resi '+input_res)
+  return
