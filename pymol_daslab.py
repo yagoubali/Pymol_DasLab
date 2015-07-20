@@ -477,12 +477,15 @@ def cva(color='white'):
 def color_virtual_atoms(color='white'):
   cva(color=color)
 
-def rva():
+def rva(color=None):
   """
   render all atoms as spheres, 
   and all virtual atoms as dots
   """
   rrs2()
+  if color is not None:
+    cva(color=color)
+  cmd.hide('sticks')
   cmd.show('spheres', 'not elem X')
   cmd.show('dots', 'elem X')
   cmd.set('transparency', 0.5, 'elem X')
