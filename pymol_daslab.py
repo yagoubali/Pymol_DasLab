@@ -472,12 +472,23 @@ def cva(color='white'):
   """
   color all virtual atoms
   """
-  cmd.hide( 'spheres', 'elem X' )
-  cmd.show( 'dots', 'elem X' )
-  cmd.set('transparency', 0.5, 'elem X' )
-
+  cmd.color( color, 'elem X' )
+  
 def color_virtual_atoms(color='white'):
   cva(color=color)
+
+def rva():
+  """
+  render all atoms as spheres, 
+  and all virtual atoms as dots
+  """
+  rrs2()
+  cmd.show('spheres', 'not elem X')
+  cmd.show('dots', 'elem X')
+  cmd.set('transparency', 0.5, 'elem X')
+
+def render_virtual_atoms():
+  rva()
 
 def load_movie( filename_string, movie_name = "mov" ):
   lst = glob( filename_string )
